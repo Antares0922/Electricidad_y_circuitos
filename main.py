@@ -66,24 +66,39 @@ while True:
                 else:
                     print('ESCRIBE UN COLOR EXISTENTE')
         #RESISTENCIA
-        #FALTA AGREGAR LA FUNCIONALIDAD DEL CIRCUITO PARALELO Y VER EXCEPCIONES DE 'INVALID LITERAL'
+        #FALTA AGREGAR LA FUNCIONALIDAD DEL CIRCUITO PARALELO Y VER EXCEPCIONES 
         case 3:
             estado_resistencia = True
             
             while estado_resistencia:
                 resistencia_funcion = input('agregar por el omh y tolerancia(romh) o colores(rcolor):').lower()
                 if resistencia_funcion == 'romh':
-                    #POSIBLE ERROR SI SE PONE UN STR
-                    omh_resistencia = int(input('escribe el valor en omh de la resistencia:'))
-                    if omh_resistencia[2] != 0:
-                        print('ese valor no se permite')
-                    else:
-                        tolerancia = float(input('escribe la tolerancia de la resistencia:'))
-                        tolerancia_valores = [1,2,0.5,0.25,0.1,0.05,5,10]
-                        if tolerancia in tolerancia_valores:
-                            #se agrega al cicuito y termina el bucle
-                            circuito.append(valor_r(resistencia_ohm(str(omh_resistencia),tolerancia)))
-                            estado_resistencia = False
+                    while True:
+                        #verifica si hay un VALUE ERROR
+                        try:
+                            omh_resistencia = int(input('escribe el valor en omh de la resistencia:'))
+                        except:
+                            print('escribe un numero VALIDO')
+                        else:
+                            #ERRORES EN ESTA FUNCION PARA ABAJO
+                            #no es posible saber si una ressitencia en valida si es menor de 3 digitos
+                            if str(omh_resistencia)[2] != '0':
+                                print('ese valor no se permite')
+                            else:
+                                #veridica si hay un VALUE ERROR
+                                try:
+                                    tolerancia = float(input('escribe la tolerancia de la resistencia:'))
+                                except:
+                                    (print('escribe un numero VALIDO'))
+                                else:
+                                    tolerancia_valores = [1,2,0.5,0.25,0.1,0.05,5,10]
+                                    if tolerancia in tolerancia_valores:
+                                        #se agrega al cicuito y termina el bucle
+                                        circuito.append(valor_r(resistencia_ohm(str(omh_resistencia),tolerancia)))
+                                        estado_resistencia = False
+                                        break
+                                    else:
+                                        print('verifica tu valor')
                     
                 elif resistencia_funcion == 'rcolor':
                     r_color_estado = True
