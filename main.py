@@ -12,8 +12,7 @@ while True:
         1- Agregar un circuito en paralelo
         2- Agregar un led
         3- Agregar una resistencia
-        4- Agregar un capacitor
-        5- Vizualizar circuito''')
+        4- Vizualizar circuito''')
     desicion = int(input('Escribe el numero de la accion a realizar:'))
 
     match desicion:
@@ -124,11 +123,6 @@ while True:
                                     estado_resistencia = False
                                     r_color_estado = False
                                     break
-        #CAPACITORES
+
         case 4:
-            break
-        case 5:
             print(circuito)
-    
-
-
