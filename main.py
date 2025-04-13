@@ -1,35 +1,40 @@
 from funciones import resistencia_color, valor_r, resistencia_ohm,suma_decimal
 print('ELECTRICIDAD Y ELECTRONICA')
 
-#usar las listas con circuitos en serie y los set como diccionarios
+#usar una lista para el circuito y ir agregando listas dependiendo de los circuitos
 circuito = []
-circuito_paralelo = {}
+#PROBLEMA 1 NO ES POSIBLE ANIDAR UN CIRCUITO A UN CIRCUITO PARALELOkn
+circuito_paralelo = []
 circuito_paralelo_estado = False
 #descicrir el circuito
 while True:
     print('como es el circuito')
-    print('''
-        1- Agregar un circuito en paralelo
-        2- Agregar un led
-        3- Agregar una resistencia
-        4- Vizualizar circuito''')
-    desicion = int(input('Escribe el numero de la accion a realizar:'))
+    print('''    1- Agregar un circuito en paralelo
+    2- Agregar un led
+    3- Agregar una resistencia
+    4- Vizualizar circuito
+    5- Salir''')
+    desicion = input('Escribe el numero de la accion a realizar:').lower()
 
     match desicion:
         #circuito paralelo
-        case 1:
+        case '1':
             while True:
-                circuito_paralelo_desicion = input('quieres agregar un circuito paralelo(y) o cerrar uno ya existente(n):').lower
-                if circuito_paralelo_desicion == 'y':
-                    circuito_paralelo_estado = True
-                    break
-                elif circuito_paralelo_desicion == 'n':
-                    circuito_paralelo_estado = False
-                    break
-                else:
-                    print('escribe una opcion valida:')
+                circuito_paralelo_desicion = input('quieres agregar un circuito paralelo(yes) o cerrar uno ya existente(no):').lower()
+                match circuito_paralelo_desicion:
+                    case 'yes':
+                        circuito_paralelo_estado = True
+                        break
+                    case 'no':
+                        circuito.append(circuito_paralelo.copy())
+                        circuito_paralelo.clear()
+                        circuito_paralelo_estado = False
+                        break
+                    case 'exit':
+                        break
+
         #LEDS
-        case 2:
+        case '2':
             valor_led_std ={'rojo':1.5,
                             'verde':1.8,
                             'amarillo':1.8}
@@ -53,7 +58,7 @@ while True:
                                 if color_led_desicion == color_led:
                                     #se agrega a un circuito paralelo si asi lo desea
                                     if circuito_paralelo_estado == True:
-                                        circuito_paralelo.update({'led',valor_led_std[color_led]})
+                                        circuito_paralelo.append(valor_led_std[color_led])
                                         estado_led = False
                                         break
                                     else:
@@ -65,7 +70,7 @@ while True:
                                 if color_led_desicion == color_led:
                                     #se agrega a un circuito paralelo si asi lo desea
                                     if circuito_paralelo_estado == True:
-                                        circuito_paralelo.update({'led',valor_led_ab[color_led]})
+                                        circuito_paralelo.append(valor_led_ab[color_led])
                                         estado_led = False
                                         break
                                     else:
@@ -75,7 +80,7 @@ while True:
                 else:
                     print('ESCRIBE UN COLOR EXISTENTE')
         #RESISTENCIA
-        case 3:
+        case '3':
             estado_resistencia = True
             
             while estado_resistencia:
@@ -91,7 +96,7 @@ while True:
                         else:
                             #se agrega a un circuito paralelo si asi lo desea
                             if circuito_paralelo_estado == True:
-                                circuito_paralelo.update({'resistencia':valor_r(resistencia_ohm(omh_resistencia,float(tolerancia_resistencia)))})
+                                circuito_paralelo.append(valor_r(resistencia_ohm(omh_resistencia,float(tolerancia_resistencia))))
                                 estado_resistencia = False
                                 break
                             else:
@@ -114,7 +119,7 @@ while True:
                             else:
                                 #se agrega a un circuito paralelo si asi lo desea
                                 if circuito_paralelo_estado == True:
-                                    circuito_paralelo({'resistencia',valor_r(resistencia_color(color1,color2,color3,color4))})
+                                    circuito_paralelo.append(valor_r(resistencia_color(color1,color2,color3,color4)))
                                     estado_resistencia = False
                                     r_color_estado = False
                                     break
@@ -123,6 +128,7 @@ while True:
                                     estado_resistencia = False
                                     r_color_estado = False
                                     break
-
-        case 4:
+        case '4':
             print(circuito)
+        case '5':
+            break
