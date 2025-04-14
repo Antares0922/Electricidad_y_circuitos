@@ -3,7 +3,7 @@ print('ELECTRICIDAD Y ELECTRONICA')
 
 #usar una lista para el circuito y ir agregando listas dependiendo de los circuitos
 circuito = []
-#PROBLEMA 1 NO ES POSIBLE ANIDAR UN CIRCUITO A UN CIRCUITO PARALELOkn
+#PROBLEMA 1 NO ES POSIBLE ANIDAR UN CIRCUITO A UN CIRCUITO PARALELO
 circuito_paralelo = []
 circuito_paralelo_estado = False
 #descicrir el circuito

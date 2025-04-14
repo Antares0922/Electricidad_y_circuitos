@@ -1,0 +1,15 @@
+<data>
+    <led>
+        <led_std>
+            rojo=1.5
+            verde=1.8
+            amarillo=1.8 
+        </led_std>
+        <led_ab>
+            rojo=2
+            amarillo=2
+            verde=3
+            azul=3
+        </led_ab>
+    </led>
+</data>
