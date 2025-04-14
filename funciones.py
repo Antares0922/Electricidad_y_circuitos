@@ -1,32 +1,25 @@
+import xml.etree.ElementTree as ET
+#XML
+arbol = ET.parse('datos.xml')
+raiz = arbol.getroot()
+
 #retorna los valores de cada color de la resistencia
 def resistencia_color(color1:str,color2:str,color3:str,color4:str):
-    color4bandas = {
-    'negro':['0','0',1,None],
-    'cafe':['1','1',10,0.01],
-    'rojo':['2','2',100,0.02],
-    'naranja':['3','3',1000,0.03],
-    'amarillo':['4','4',10000,0.04],
-    'verde':['5','5',100000,0.005],
-    'azul':['6','6',1000000,0.0025],
-    'morado':['7','7',10000000,None],
-    'gris':['8','8',100000000,None],
-    'blanco':['9','9',1000000000,None], 
-    'oro':[None,None,0.1,0.05],
-    'plata':[None,None,0.01,0.1]
-    }
+    #CARGA LOS VALORES DE LA RESISTENCIA <cuatrobandas>
+    valores_4bandas = raiz[1][0]
     colores = [color1,color2,color3,color4]
     resistencia = []
     indice_color = 0
-    while indice_color < 4:
-        for color in colores: 
-            for i in color4bandas:
-                #si no encuentra un color disponible salta al siguiente 
-                if color.lower() == i.lower():
-                    resistencia.append(color4bandas[i][indice_color])
-                    indice_color += 1
-
+    for i in range(4):
+        #saca las etiquetas del color
+        color = valores_4bandas.find(colores[indice_color])
+        #saca la etiqueta del valor 
+        valor = color[indice_color]
+        #saca y agrega el valor final
+        resistencia.append(valor.text)
+        indice_color +=1
     else:
-        #lsita con los valores de cada color
+        #lista con los valores de cada color en str
         return resistencia
 
 #retorna los valores por medio de el valor omh y tolerancia de la resistencia

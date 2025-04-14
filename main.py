@@ -54,6 +54,7 @@ while True:
                             std_valores = raiz[0][0]
                             if std_valores.find(color_led_desicion) != None:
                                 valor_led_std = float(std_valores.find(color_led_desicion).text)
+                                #se agrega al circuito
                                 if circuito_paralelo_estado == True:
                                     circuito_paralelo.append(valor_led_std)
                                     estado_led = False
@@ -71,6 +72,7 @@ while True:
                             ab_valores = raiz[0][1]
                             if ab_valores.find(color_led_desicion) != None:
                                 valor_led_ab = int(ab_valores.find(color_led_desicion).text)
+                                #se agrega al circuito
                                 if circuito_paralelo_estado == True:
                                     circuito_paralelo.append(valor_led_ab)
                                     estado_led = False
@@ -116,24 +118,21 @@ while True:
                         color2 = input('escribe el color de la 2ra banda de la resistencia:').lower()
                         color3 = input('escribe el color de la 3ra banda de la resistencia:').lower()
                         color4 = input('escribe el color de la 4ra banda de la resistencia:').lower()
-                        color_resistencia = [color1,color2,color3,color4]
-                        colores = ['negro','cafe','rojo','naranja','amarillo','verde','azul','morado','gris','blanco','oro','plata']
-                        for color in color_resistencia:
-                            if color not in colores:
-                                print('escribe un color disponible')
+                        try:
+                            resistencia_color(color1,color2,color3,color4)
+                        except:
+                            print('INTENTALO DE NUEVO HUBO UN ERROR')
+                        else:                                #se agrega a un circuito paralelo si asi lo desea
+                            if circuito_paralelo_estado == True:
+                                circuito_paralelo.append(valor_r(resistencia_color(color1,color2,color3,color4)))
+                                estado_resistencia = False
+                                r_color_estado = False
                                 break
                             else:
-                                #se agrega a un circuito paralelo si asi lo desea
-                                if circuito_paralelo_estado == True:
-                                    circuito_paralelo.append(valor_r(resistencia_color(color1,color2,color3,color4)))
-                                    estado_resistencia = False
-                                    r_color_estado = False
-                                    break
-                                else:
-                                    circuito.append(valor_r(resistencia_color(color1,color2,color3,color4)))
-                                    estado_resistencia = False
-                                    r_color_estado = False
-                                    break
+                                circuito.append(valor_r(resistencia_color(color1,color2,color3,color4)))
+                                estado_resistencia = False
+                                r_color_estado = False
+                                break
         case '4':
             print(circuito)
         case '5':
