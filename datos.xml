@@ -1,15 +1,16 @@
-<data>
-    <led>
+<?xml version="1.0" encoding="UTF-8"?>
+<raiz>
+    <leds>
         <led_std>
-            rojo=1.5
-            verde=1.8
-            amarillo=1.8 
+            <rojo>1.5</rojo>
+            <verde>1.8</verde>
+            <amarillo>1.8</amarillo>
         </led_std>
         <led_ab>
-            rojo=2
-            amarillo=2
-            verde=3
-            azul=3
+            <rojo>2</rojo>
+            <amarillo>2</amarillo>
+            <verde>3</verde>
+            <azul>3</azul>
         </led_ab>
-    </led>
-</data>
+    </leds>
+</raiz>
