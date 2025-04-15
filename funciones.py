@@ -24,63 +24,53 @@ def resistencia_color(color1:str,color2:str,color3:str,color4:str):
 
 #retorna los valores por medio de el valor omh y tolerancia de la resistencia
 def resistencia_ohm(resistencia:str,tolerancia:float):
-    valores_4bandas = {
-    0:['0','0',1,0,'negro'],
-    1:['1','1',10,0.01,'cafe'],
-    2:['2','2',100,0.02,'rojo'],
-    3:['3','3',1000,0.03,'naranja'],
-    4:['4','4',10000,0.04,'amarillo'],
-    5:['5','5',100000,0.005,'verde'],
-    6:['6','6',1000000,0.0025,'azul'],
-    7:['7','7',10000000,0,'morado'],
-    8:['8','8',100000000,0,'gris'],
-    9:['9','9',1000000000,0,'blanco'], 
-    10:[None,None,0.1,0.05,'oro'],
-    11:[None,None,0.01,0.1,'plata']
-    }
-    valor_resistencia = []
-    resistencia = str(resistencia)
-    
-    #buscando equivalentes  de los 1ros 2 digitos
-    for a in valores_4bandas:
-        if str(resistencia[0]) == valores_4bandas[a][0]:
-            valor_resistencia.append(valores_4bandas[a][0])
-            break
-    for e in valores_4bandas:
-        if str(resistencia[1]) == valores_4bandas[e][1]:
-            valor_resistencia.append(valores_4bandas[e][1])
-            break
+    #CARGA LOS VALORES DE LA RESISTENCIA <cuatrobandas>
+    valores_4bandas = raiz[1][0]
+    resistencia_valores = []
+    #bsucando el 1er digito
+    for color in valores_4bandas:
+        if color[0].text == resistencia[0]:
+            resistencia_valores.append(color[0].text)
+    #buscando el 2do digito
+    for color in valores_4bandas:
+        if color[1].text == resistencia[1]:
+            resistencia_valores.append(color[1].text)
     #buscando el multiplicador
-    num = resistencia[0] + resistencia[1]
-    num = float(num)
-    for i in valores_4bandas:
-        if num*valores_4bandas[i][2] == float(resistencia):
-            valor_resistencia.append(valores_4bandas[i][2])
-            break
+    num = resistencia_valores[0] + resistencia_valores[1]
+    for color in valores_4bandas:
+        if float(num)*float(color[2].text) == float(resistencia):
+            resistencia_valores.append(color[2].text)
     #buscando la tolerancia
-    for o in valores_4bandas:
-        if tolerancia == valores_4bandas[o][3]*100:
-            valor_resistencia.append(valores_4bandas[o][3])
-            break
-    #lista con los valores de la resistencia
-    return valor_resistencia
+    for color in valores_4bandas:
+        if str(tolerancia/100) == color[3].text:
+            resistencia_valores.append(color[3].text)
+    #VERIFICANDO SI LA LISTA ES CORRECTA
+    if len(resistencia_valores) == 4:
+        return resistencia_valores
+    else:
+        return 0/0
 
 #retorna el valor en omh en float por medio de una lista
 def valor_r(resistencia:list):
     #desnpaquetado de datos
     color_1, color_2, multi, porcentaje_tolerancia = resistencia
-    
-    #Valor de resistencia
-    v_resistencia = str(color_1) + str(color_2)
-    v_resistencia = int(v_resistencia) * float(multi)
-    
-    #tolerancia, min y max
-    tolerancia = v_resistencia * float(porcentaje_tolerancia)
-    tolerancia_min = v_resistencia - tolerancia
-    tolerancia_max = v_resistencia + tolerancia
-    
-    #retorna el valor en un float
-    return v_resistencia
+    #verificar los datos
+    if color_1 or color_2 == None:
+        return 0/0
+    elif porcentaje_tolerancia == None:
+        return 0/0
+    else:
+        #Valor de resistencia
+        v_resistencia = str(color_1) + str(color_2)
+        v_resistencia = int(v_resistencia) * float(multi)
+        
+        #tolerancia, min y max
+        tolerancia = v_resistencia * float(porcentaje_tolerancia)
+        tolerancia_min = v_resistencia - tolerancia
+        tolerancia_max = v_resistencia + tolerancia
+        
+        #retorna el valor en un float
+        return v_resistencia
 
 #suma las resistencia en un circuito paralelo
 def suma_decimal(componentes:list):

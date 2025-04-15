@@ -82,7 +82,7 @@ while True:
                                     estado_led = False
                                     break
                             else:
-                                print('COLOR NO CALIDO')
+                                print('COLOR NO VALIDO')
                                 break
                         else:
                             print('OPCION NO VALIDA')
@@ -97,6 +97,7 @@ while True:
                     while True:
                         omh_resistencia = input('escribe el valor omh de la resistencia:')
                         tolerancia_resistencia = input('escribe la tolerancia de la resistencia:')
+                        #NO SE PEUDEN AGREGAR RESISTENCIA CON VALOR 0
                         try:
                             resistencia_ohm(omh_resistencia,float(tolerancia_resistencia))
                         except:
@@ -122,17 +123,29 @@ while True:
                             resistencia_color(color1,color2,color3,color4)
                         except:
                             print('INTENTALO DE NUEVO HUBO UN ERROR')
-                        else:                                #se agrega a un circuito paralelo si asi lo desea
+                        else:                               
+                            #se agrega a un circuito paralelo si asi lo desea
                             if circuito_paralelo_estado == True:
-                                circuito_paralelo.append(valor_r(resistencia_color(color1,color2,color3,color4)))
-                                estado_resistencia = False
-                                r_color_estado = False
-                                break
+                                try:
+                                    valor_r(resistencia_color(color1,color2,color3,color4))
+                                except:
+                                    print('ERROR PRUEBE DE NUEVO')
+                                    r_color_estado = False
+                                else:
+                                    circuito_paralelo.append(valor_r(resistencia_color(color1,color2,color3,color4)))
+                                    estado_resistencia = False
+                                    r_color_estado = False
+                                
                             else:
-                                circuito.append(valor_r(resistencia_color(color1,color2,color3,color4)))
-                                estado_resistencia = False
-                                r_color_estado = False
-                                break
+                                try:
+                                    valor_r(resistencia_color(color1,color2,color3,color4))
+                                except:
+                                    print('ERROR PRUEBE DE NUEVO')
+                                    r_color_estado = False
+                                else:
+                                    circuito.append(valor_r(resistencia_color(color1,color2,color3,color4)))
+                                    estado_resistencia = False
+                                    r_color_estado = False
         case '4':
             print(circuito)
         case '5':
