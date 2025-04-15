@@ -107,62 +107,72 @@
             <rojo>
                 <valor1>2</valor1>
                 <valor2>2</valor2>
-                <valor3>100</valor3>
-                <valor4>0.02</valor4>
+                <valor3>2</valor3>
+                <valor4>100</valor4>
+                <valor5>0.02</valor5>
             </rojo>
             <naranja>
                 <valor1>3</valor1>
                 <valor2>3</valor2>
-                <valor3>1000</valor3>
-                <valor4></valor4>
+                <valor3>3</valor3>
+                <valor4>1000</valor4>
+                <valor5></valor5>
             </naranja>
             <amarillo>
                 <valor1>4</valor1>
                 <valor2>4</valor2>
-                <valor3>10000</valor3>
-                <valor4></valor4>
+                <valor3>4</valor3>
+                <valor4>10000</valor4>
+                <valor5></valor5>
             </amarillo>
             <verde>
                 <valor1>5</valor1>
                 <valor2>5</valor2>
-                <valor3>100000</valor3>
-                <valor4>0.005</valor4>
+                <valor3>5</valor3>
+                <valor4>100000</valor4>
+                <valor5>0.005</valor5>
             </verde>
             <azul>
                 <valor1>6</valor1>
                 <valor2>6</valor2>
-                <valor3>1000000</valor3>
-                <valor4>0.0025</valor4>
+                <valor3>6</valor3>
+                <valor4>1000000</valor4>
+                <valor5>0.0025</valor5>
             </azul>
             <morado>
                 <valor1>7</valor1>
                 <valor2>7</valor2>
-                <valor3>10000000</valor3>
-                <valor4></valor4>
+                <valor3>7</valor3>
+                <valor4>10000000</valor4>
+                <valor5>0.001</valor5>
             </morado>
             <gris>
                 <valor1>8</valor1>
                 <valor2>8</valor2>
-                <valor3>100000000</valor3>
-                <valor4></valor4>
+                <valor3>8</valor3>
+                <valor4>100000000</valor4>
+                <valor5>0.0005</valor5>
             </gris>
             <blanco>
-                <valor1>4</valor1>
-                <valor2>4</valor2>
-                <valor3>1000000000</valor3>
-                <valor4></valor4>
+                <valor1>9</valor1>
+                <valor2>9</valor2>
+                <valor3>9</valor3>
+                <valor4>1000000000</valor4>
+                <valor5>0.01</valor5>
             </blanco>
             <oro>
                 <valor1></valor1>
                 <valor2></valor2>
-                <valor3>0.1</valor3>
-                <valor4>0.05</valor4>
+                <valor3></valor3>
+                <valor4>0.1</valor4>
+                <valor5>0.05</valor5>
             </oro>
             <plata>
                 <valor1></valor1>
                 <valor2></valor2>
-                <valor3>0.01</valor3>
-                <valor4>0.1</valor4>
+                <valor3></valor3>
+                <valor4>0.01</valor4>
+                <valor5>0.1</valor5>
             </plata>
         </cinco_bandas>
     </resistencias>
