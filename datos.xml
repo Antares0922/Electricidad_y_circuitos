@@ -3,14 +3,23 @@
     <leds>
         <led_std>
             <rojo>1.5</rojo>
-            <verde>1.8</verde>
-            <amarillo>1.8</amarillo>
+            <verde>1.5</verde>
+            <amarillo>1.5</amarillo>
+            <naranja>1.5</naranja>
+            <azul>1.5</azul>
+            <verde>1.5</verde>
+            <rosa>1.5</rosa>
+            <morado>1.5</morado>
         </led_std>
         <led_ab>
-            <rojo>2</rojo>
-            <amarillo>2</amarillo>
-            <verde>3</verde>
-            <azul>3</azul>
+            <blanco>3.1</blanco>
+            <morado>3.1</morado>
+            <amarillo>2.1</amarillo>
+            <verde>3.1</verde>
+            <azul>3.1</azul>
+            <rojo>2.1</rojo>
+            <naranja>2.1</naranja>
+            <rosa>2.1</rosa>
         </led_ab>
     </leds>
     <resistencias>
@@ -88,7 +97,6 @@
                 <valor4>0.1</valor4>
             </plata>
         </cuatrobandas>
-        <!-- SIN TERMINAR LOS VALORES-->
         <cinco_bandas>
             <negro>
                 <valor1>0</valor1>

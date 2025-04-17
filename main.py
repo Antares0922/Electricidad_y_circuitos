@@ -1,6 +1,6 @@
 from funciones import resistencia_color, valor_r, resistencia_ohm,suma_decimal
 import xml.etree.ElementTree as ET
-from clases import Led, Resistencia
+from clases import Resistencia, LedAB,LedSTD
 
 #usar una lista para el circuito y ir agregando listas dependiendo de los circuitos
 circuito = []
@@ -42,50 +42,52 @@ while True:
             estado_led = True
             while estado_led:
                 color_led_desicion = input('escribe el color del led:').lower()
-                if color_led_desicion == 'blanco':
-                    circuito.append(Led(2.8).valor)
-                    break
-                else:
-                    while True:
-                        color_brillo = input('El led es estandar(std) o alto brillo(ab):').lower()
-                        if color_brillo == 'std':
-                            #SE CARGA EL APARTADO DE <led_std>
-                            std_valores = raiz[0][0]
-                            if std_valores.find(color_led_desicion) != None:
-                                valor_led_std = float(std_valores.find(color_led_desicion).text)
-                                #se agrega al circuito
-                                if circuito_paralelo_estado == True:
-                                    circuito_paralelo.append(Led(valor_led_std).valor)
-                                    estado_led = False
-                                    break
-                                else:
-                                    circuito.append(Led(valor_led_std).valor)
-                                    estado_led = False
-                                    break
-                            else:
-                                print('COLOR NO VALIDO')
+                color_brillo = input('El led es estandar(std) o alto brillo(ab):').lower()
+                if color_brillo == 'std':
+                    #SE CARGA EL APARTADO DE <led_std>
+                    std_valores = raiz[0][0]
+                    if std_valores.find(color_led_desicion) != None:
+                        valor_led_std = float(std_valores.find(color_led_desicion).text)
+                        while True:
+                            #eleccion de intensidad
+                            intensidad_desicion = input('elige entre 30mAmp o 40mAmp').lower()
+                            if intensidad_desicion == '30mamp':
+                                agregar = 30
                                 break
-                            
-                        elif color_brillo == 'ab':
-                            #SE CARGA EL APARTADO DE <led_ab>
-                            ab_valores = raiz[0][1]
-                            if ab_valores.find(color_led_desicion) != None:
-                                valor_led_ab = int(ab_valores.find(color_led_desicion).text)
-                                #se agrega al circuito
-                                if circuito_paralelo_estado == True:
-                                    circuito_paralelo.append(Led(valor_led_ab).valor)
-                                    estado_led = False
-                                    break
-                                else:
-                                    circuito.append(Led(valor_led_ab).valor)
-                                    estado_led = False
-                                    break
-                            else:
-                                print('COLOR NO VALIDO')
+                            elif intensidad_desicion == '40mamp':
+                                agregar = 40
                                 break
+                            else:
+                                print('OPCION NO VALIDA')
+                        #se agrega al circuito
+                        if circuito_paralelo_estado == True:
+                            circuito_paralelo.append(LedSTD(valor_led_std,agregar).valor)
+                            del std_valores
+                            estado_led = False
                         else:
-                            print('OPCION NO VALIDA')
-                            break
+                            circuito.append(LedSTD(valor_led_std,agregar).valor)
+                            del std_valores
+                            estado_led = False
+                    else:
+                        print('OPCION NO VALIDO')
+                                  
+                elif color_brillo == 'ab':
+                    #SE CARGA EL APARTADO DE <led_ab>
+                    ab_valores = raiz[0][1]
+                    if ab_valores.find(color_led_desicion) != None:
+                        valor_led_ab = int(ab_valores.find(color_led_desicion).text)
+                        #se agrega al circuito
+                        if circuito_paralelo_estado == True:
+                            circuito_paralelo.append(LedAB(valor_led_ab).valor)
+                            estado_led = False
+                        else:
+                            circuito.append(LedAB(valor_led_ab).valor)
+                            estado_led = False
+                    else:
+                        print('OPCION NO VALIDO')
+                else:
+                    print('OPCION NO VALIDA')
+                    break
         #RESISTENCIA
         case '3':
             estado_resistencia = True
