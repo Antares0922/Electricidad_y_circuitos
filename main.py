@@ -1,8 +1,7 @@
 from funciones import resistencia_color, valor_r, resistencia_ohm,suma_decimal
 import xml.etree.ElementTree as ET
+from clases import Led, Resistencia
 
-
-print('ELECTRICIDAD Y ELECTRONICA')
 #usar una lista para el circuito y ir agregando listas dependiendo de los circuitos
 circuito = []
 #PROBLEMA 1 NO ES POSIBLE ANIDAR UN CIRCUITO A UN CIRCUITO PARALELO
@@ -44,7 +43,7 @@ while True:
             while estado_led:
                 color_led_desicion = input('escribe el color del led:').lower()
                 if color_led_desicion == 'blanco':
-                    circuito.append(2.8)
+                    circuito.append(Led(2.8).valor)
                     break
                 else:
                     while True:
@@ -56,11 +55,11 @@ while True:
                                 valor_led_std = float(std_valores.find(color_led_desicion).text)
                                 #se agrega al circuito
                                 if circuito_paralelo_estado == True:
-                                    circuito_paralelo.append(valor_led_std)
+                                    circuito_paralelo.append(Led(valor_led_std).valor)
                                     estado_led = False
                                     break
                                 else:
-                                    circuito.append(valor_led_std)
+                                    circuito.append(Led(valor_led_std).valor)
                                     estado_led = False
                                     break
                             else:
@@ -74,11 +73,11 @@ while True:
                                 valor_led_ab = int(ab_valores.find(color_led_desicion).text)
                                 #se agrega al circuito
                                 if circuito_paralelo_estado == True:
-                                    circuito_paralelo.append(valor_led_ab)
+                                    circuito_paralelo.append(Led(valor_led_ab).valor)
                                     estado_led = False
                                     break
                                 else:
-                                    circuito.append(valor_led_ab)
+                                    circuito.append(Led(valor_led_ab).valor)
                                     estado_led = False
                                     break
                             else:
@@ -105,11 +104,11 @@ while True:
                         else:
                             #se agrega a un circuito paralelo si asi lo desea
                             if circuito_paralelo_estado == True:
-                                circuito_paralelo.append(valor_r(resistencia_ohm(omh_resistencia,float(tolerancia_resistencia))))
+                                circuito_paralelo.append(Resistencia(valor_r(resistencia_ohm(omh_resistencia,float(tolerancia_resistencia)))).valor)
                                 estado_resistencia = False
                                 break
                             else:
-                                circuito.append(valor_r(resistencia_ohm(omh_resistencia,float(tolerancia_resistencia))))
+                                circuito.append(Resistencia(valor_r(resistencia_ohm(omh_resistencia,float(tolerancia_resistencia)))).valor)
                                 estado_resistencia = False
                                 break
                 elif resistencia_funcion == 'rcolor':
@@ -132,7 +131,7 @@ while True:
                                     print('ERROR PRUEBE DE NUEVO')
                                     r_color_estado = False
                                 else:
-                                    circuito_paralelo.append(valor_r(resistencia_color(color1,color2,color3,color4)))
+                                    circuito_paralelo.append(Resistencia(valor_r(resistencia_color(color1,color2,color3,color4)).valor))
                                     estado_resistencia = False
                                     r_color_estado = False
                                 
@@ -143,10 +142,15 @@ while True:
                                     print('ERROR PRUEBE DE NUEVO')
                                     r_color_estado = False
                                 else:
-                                    circuito.append(valor_r(resistencia_color(color1,color2,color3,color4)))
+                                    circuito.append(Resistencia(valor_r(resistencia_color(color1,color2,color3,color4))).valor)
                                     estado_resistencia = False
                                     r_color_estado = False
         case '4':
             print(circuito)
         case '5':
             break
+        #CALCULOS
+        case '6':
+            voltaje = 1
+            intensidad = 1
+            potencia = 1
