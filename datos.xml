@@ -2,14 +2,27 @@
 <raiz>
     <leds>
         <led_std>
-            <rojo>1.5</rojo>
-            <verde>1.5</verde>
-            <amarillo>1.5</amarillo>
-            <naranja>1.5</naranja>
-            <azul>1.5</azul>
-            <verde>1.5</verde>
-            <rosa>1.5</rosa>
-            <morado>1.5</morado>
+            <led_std_1.5>
+                <rojo>1.5</rojo>
+                <verde>1.5</verde>
+                <amarillo>1.5</amarillo>
+                <naranja>1.5</naranja>
+                <azul>1.5</azul>
+                <verde>1.5</verde>
+                <rosa>1.5</rosa>
+                <morado>1.5</morado>
+            </led_std_1.5>
+            <Led_std_variado>
+                <rojo>3.6</rojo>
+                <verde>4.1</verde>
+                <amarillo>3.6</amarillo>
+                <naranja>3.6</naranja>
+                <azul>4.1</azul>
+                <verde>4.1</verde>
+                <rosa>3.6</rosa>
+                <morado>4.1</morado>
+                <blanco>4.1</blanco>
+            </Led_std_variado>
         </led_std>
         <led_ab>
             <blanco>3.1</blanco>

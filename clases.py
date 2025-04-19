@@ -1,12 +1,16 @@
-from abc import ABC, abstractclassmethod
-class Led(ABC):
-    def __init__(self,voltaje):
+#checar
+class Led():
+    def __init__(self,voltaje:float):
         self.voltaje = voltaje
+        
+    def comportamiento_paralelo(self):
+        return 1/self.voltaje
         
 class LedAB(Led):
     def __init__(self, voltaje):
         self.intensidad = 20
         super().__init__(voltaje)
+
     
 class LedSTD(Led):
     def __init__(self, voltaje, intensidad):
@@ -14,13 +18,16 @@ class LedSTD(Led):
         super().__init__(voltaje)
         
 class Resistencia():
-    def __init__(self,valor):
-        self.valor = valor
-    #Como se debe comportar con un circuito paralelo
-    def comportamiento_paralelo(self,valor):
-        return 1/self.valor
-
+    def __init__(self,resistencia):
+        self.resistencia = resistencia
+        
+    def comportamiento_paralelo(self):
+        return 1/self.resistencia
+#checar
 class CircuitoParalelo():
     def __init__(self,componentes:list):
         self.componentes = componentes
         
+    def comportamiento_paralelo(self):
+        for i in self.componentes:
+            i.comportamiento_paralelo()      

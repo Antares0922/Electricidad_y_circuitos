@@ -53,24 +53,18 @@ def resistencia_ohm(resistencia:str,tolerancia:float):
 #retorna el valor en omh en float por medio de una lista
 def valor_r(resistencia:list):
     #desnpaquetado de datos
-    color_1, color_2, multi, porcentaje_tolerancia = resistencia
-    #verificar los datos
-    if color_1 or color_2 == None:
-        return 0/0
-    elif porcentaje_tolerancia == None:
-        return 0/0
-    else:
-        #Valor de resistencia
-        v_resistencia = str(color_1) + str(color_2)
-        v_resistencia = int(v_resistencia) * float(multi)
-        
-        #tolerancia, min y max
-        tolerancia = v_resistencia * float(porcentaje_tolerancia)
-        tolerancia_min = v_resistencia - tolerancia
-        tolerancia_max = v_resistencia + tolerancia
-        
-        #retorna el valor en un float
-        return v_resistencia
+    valor_1, valor_2, multi, porcentaje_tolerancia = resistencia
+    #Valor de resistencia
+    v_resistencia = str(valor_1) + str(valor_2)
+    v_resistencia = int(v_resistencia) * float(multi)
+    
+    #tolerancia, min y max
+    tolerancia = v_resistencia * float(porcentaje_tolerancia)
+    tolerancia_min = v_resistencia - tolerancia
+    tolerancia_max = v_resistencia + tolerancia
+    
+    #retorna el valor en un float
+    return v_resistencia
 
 #suma las resistencia en un circuito paralelo
 def suma_decimal(componentes:list):
