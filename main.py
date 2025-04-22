@@ -1,18 +1,17 @@
 from funciones import resistencia_color, valor_r, resistencia_ohm,suma_decimal
 import xml.etree.ElementTree as ET
-from clases import Resistencia, LedAB,LedSTD
+from clases import Resistencia, LedAB,LedSTD, Led
+import dearpygui.dearpygui as dpg
 
+#descicrir el circuito
 #usar una lista para el circuito y ir agregando listas dependiendo de los circuitos
 #AGREGA LOS OBJETOS DE LAS CLASES
-circuito = []
-#PROBLEMA 1 NO ES POSIBLE ANIDAR UN CIRCUITO A UN CIRCUITO PARALELO
+circuito = []    #PROBLEMA 1 NO ES POSIBLE ANIDAR UN CIRCUITO A UN CIRCUITO PARALELO
 circuito_paralelo = []
 circuito_paralelo_estado = False
 #XLM 
 arbol = ET.parse('datos.xml')
 raiz = arbol.getroot()
-
-#descicrir el circuito
 while True:
     print('como es el circuito')
     print('''    1- Agregar un circuito en paralelo
@@ -21,7 +20,6 @@ while True:
     4- Vizualizar circuito
     5- Salir''')
     desicion = input('Escribe el numero de la accion a realizar:').lower()
-
     match desicion:
         #circuito paralelo
         case '1':
@@ -44,7 +42,6 @@ while True:
                         break
                     case 'exit':
                         break
-
         #LEDS
         case '2':
             estado_led = True
@@ -57,9 +54,9 @@ while True:
                     #comparando con los colores de <led_std_variado>
                     if std_valores[1].find(color_led_desicion) != None:
                         #busqueda del voltaje e intensidad correcta
-                        voltaje_desicion = input('el voltaje del led es de 1.5v si lo es(y):').lower()
+                        voltaje_desicion_led = input('el voltaje del led es de 1.5v si lo es(y):').lower()
                         #no existe un led blanco con 1.5v
-                        if voltaje_desicion == 'y' and color_led_desicion != 'blanco':                 
+                        if voltaje_desicion_led == 'y' and color_led_desicion != 'blanco':                 
                                 valor_led_std = float(std_valores[0].find(color_led_desicion).text)
                                 intensidad = 40
                         else:
@@ -74,7 +71,7 @@ while True:
                                 estado_led = False
                     else:
                         print('OPCION NO VALIDO')
-                                  
+                                
                 elif color_brillo == 'ab':
                     #SE CARGA EL APARTADO DE <led_ab>
                     ab_valores = raiz[0][1]
@@ -157,14 +154,71 @@ while True:
             break
         #CALCULOS
         case '6':
-            resistecnia_total = 0
+            #saca la resistencia total del circuito
             resistencia_valores = []
             for resistencia in circuito:
                 if isinstance(resistencia,Resistencia):
-                    resistencia_valores.append(resistencia.valor)
-                else:
-                    resistencia_valores.append(resistencia)
-            print(resistencia_valores)        
-            #voltaje_total = float(input('Escribe el voltaje total:'))
-            #intensidad_total = voltaje_total/ resistecnia_total #ley de ohm
-            potencia_total = 0
+                    resistencia_valores.append(resistencia.resistencia)
+                    
+            resistecnia_total = sum(resistencia_valores)
+            
+            #Obtencion de los demas datos
+            leyes = input('Te falta algun dato si(y):').lower()
+            if leyes != 'y':
+                while True:
+                    try:
+                        intensidad_total = float(input('escribe la intensidad total:'))
+                        voltaje_total = float(input('Escribe el voltaje total:'))
+                        potencia_total = voltaje_total * intensidad_total
+                    except:
+                        print('ERROR OPCION NO VALIDA')
+                    else:
+                        break
+            else:
+                leyes = input('Te falta la intensidad(I) o el voltaje(V):').upper()
+                leyes_estado = True
+                while leyes_estado:
+                    match leyes:
+                        case 'I':
+                            while True:
+                                try:
+                                    voltaje_total = float(input('Escribe el voltaje total:'))
+                                    intensidad_total = voltaje_total / resistecnia_total
+                                    potencia_total = voltaje_total * intensidad_total
+                                except:
+                                    print('ERROR ESCRIBE UN DATO VALIDO')
+                                else:
+                                    leyes_estado = False
+                                    break
+                        case 'V':
+                            while True:
+                                try:
+                                    intensidad_total = float(input('Escribe la intensidad total:'))
+                                    voltaje_total = intensidad_total * resistecnia_total
+                                    potencia_total = voltaje_total * intensidad_total
+                                except:
+                                    print('ERROR ESCRIBE UN DATO VALIDO')
+                                else:
+                                    leyes_estado = False
+                                    break
+                        case _:
+                            print('OPCION NO VALIDA')
+            #Mostrando los datos totales
+            print(f'resistecnia total:{resistecnia_total} ,intensidad total:{intensidad_total} ,potencia total:{potencia_total} ,voltaje total:{voltaje_total}')
+            #SIN TERMINAR
+            datos_circuito = {
+                
+            }
+            resistencia_num = 0
+            led_num = 0
+            for componente in circuito:
+                if isinstance(componente,Resistencia):
+                    resistencia_num += 1
+                    componente_resistecnia = componente.resistencia
+                    componente_intensidad = intensidad_total
+                    componente_voltaje =  componente_intensidad * componente_resistecnia
+                    componente_potencia = componente_voltaje * intensidad
+                elif isinstance(componente,Led):
+                    led_num += 1
+                    #operaciones a realizar
+                 
