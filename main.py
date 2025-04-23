@@ -155,14 +155,17 @@ while True:
         #CALCULOS
         case '6':
             #saca la resistencia total del circuito
+            leds_valores = []
             resistencia_valores = []
-            for resistencia in circuito:
-                if isinstance(resistencia,Resistencia):
-                    resistencia_valores.append(resistencia.resistencia)
-                    
+            for componente in circuito:
+                if isinstance(componente,Resistencia):
+                    resistencia_valores.append(componente.resistencia)
+                elif issubclass(componente,Led):
+                    leds_valores.append(componente.voltaje)
+            #sacando la resistencia total del circuito   
             resistecnia_total = sum(resistencia_valores)
             
-            #Obtencion de los demas datos
+            #Obtencion de los demas datos del circuito
             leyes = input('Te falta algun dato si(y):').lower()
             if leyes != 'y':
                 while True:
@@ -205,20 +208,36 @@ while True:
                             print('OPCION NO VALIDA')
             #Mostrando los datos totales
             print(f'resistecnia total:{resistecnia_total} ,intensidad total:{intensidad_total} ,potencia total:{potencia_total} ,voltaje total:{voltaje_total}')
-            #SIN TERMINAR
+            #obteniendo los datos de los componentes individuales
             datos_circuito = {
                 
             }
             resistencia_num = 0
             led_num = 0
+            #sacando el voltaje led
+            voltaje_led = sum(leds_valores) - voltaje_total
             for componente in circuito:
                 if isinstance(componente,Resistencia):
+                    #numero de resistencia
                     resistencia_num += 1
+                    #sacando los datos de la resistencia
                     componente_resistecnia = componente.resistencia
                     componente_intensidad = intensidad_total
                     componente_voltaje =  componente_intensidad * componente_resistecnia
-                    componente_potencia = componente_voltaje * intensidad
+                    componente_potencia = componente_voltaje * componente_intensidad
+                    #agregando los datos de la resistencia
+                    resistencia_datos = {
+                        'resistencia':componente.resistencia,
+                        'intensidad':componente_intensidad,
+                        'voltaje':componente_voltaje,
+                        'potencia':componente_potencia
+                    }
+                    datos_circuito[f'resistencia {resistencia_num}'] = resistencia_datos
                 elif isinstance(componente,Led):
+                    #numero de led
                     led_num += 1
-                    #operaciones a realizar
+                    #sacando datos del led
+                    led_datos = {
+                    }
+            print(datos_circuito)
                  
