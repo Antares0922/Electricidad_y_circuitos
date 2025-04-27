@@ -1,4 +1,4 @@
-from funciones import resistencia_color, valor_r, resistencia_ohm,suma_decimal
+from funciones import resistencia_color, valor_r, resistencia_ohm
 import xml.etree.ElementTree as ET
 from clases import Resistencia, LedAB,LedSTD, Led
 import dearpygui.dearpygui as dpg
@@ -214,30 +214,46 @@ while True:
             }
             resistencia_num = 0
             led_num = 0
-            #sacando el voltaje led
-            voltaje_led = sum(leds_valores) - voltaje_total
             for componente in circuito:
                 if isinstance(componente,Resistencia):
                     #numero de resistencia
                     resistencia_num += 1
                     #sacando los datos de la resistencia
-                    componente_resistecnia = componente.resistencia
-                    componente_intensidad = intensidad_total
-                    componente_voltaje =  componente_intensidad * componente_resistecnia
-                    componente_potencia = componente_voltaje * componente_intensidad
+                    if circuito_paralelo_estado == True:
+                        pass
+                    else:
+                        componente_resistecnia = componente.resistencia
+                        componente_intensidad = intensidad_total
+                        componente_voltaje =  componente_intensidad * componente_resistecnia
+                        componente_potencia = componente_voltaje * componente_intensidad
                     #agregando los datos de la resistencia
                     resistencia_datos = {
                         'resistencia':componente.resistencia,
-                        'intensidad':componente_intensidad,
-                        'voltaje':componente_voltaje,
-                        'potencia':componente_potencia
+                        'intensidad':round(componente_intensidad,5),
+                        'voltaje':round(componente_voltaje,5),
+                        'potencia':round(componente_potencia,5)
                     }
                     datos_circuito[f'resistencia {resistencia_num}'] = resistencia_datos
                 elif isinstance(componente,Led):
                     #numero de led
                     led_num += 1
                     #sacando datos del led
+                    if circuito_paralelo_estado == True:
+                        pass
+                    else:
+                        try:
+                            voltaje_led = componente_voltaje - componente.voltaje
+                        except:
+                            voltaje_led = voltaje_total - componente.voltaje
+                    resistencia_necesaria = voltaje_led / componente.intensidad
+                    componente_potencia_led = componente.voltaje * componente.intensidad
+                    #agregando los datos de el led
                     led_datos = {
+                        'resistencia necesaria': resistencia_necesaria,
+                        'intensidad': componente.intensidad,
+                        'voltaje': componente.voltaje,
+                        'potencia': componente_potencia_led,
                     }
+                    datos_circuito[f'led {led_num}'] = led_datos
             print(datos_circuito)
                  

@@ -1,4 +1,4 @@
-#checar
+#Clase padre de leds
 class Led():
     def __init__(self,voltaje:float):
         self.voltaje = voltaje
@@ -18,12 +18,18 @@ class LedSTD(Led):
         super().__init__(voltaje)
         
 class Resistencia():
-    def __init__(self,resistencia):
+    def __init__(self,valores:tuple):
+        #desenpaquetando la tupla
+        resistencia,tolerancia,tolerancia_min,tolerancia_max = valores
+        
         self.resistencia = resistencia
+        self.tolerancia = tolerancia
+        self.tolerancia_min = tolerancia_min
+        self.tolerancia_max = tolerancia_max
         
     def comportamiento_paralelo(self):
         return 1/self.resistencia
-#checar
+#AUN NO ESTA LISTA
 class CircuitoParalelo():
     def __init__(self,componentes:list):
         self.componentes = componentes

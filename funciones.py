@@ -64,19 +64,4 @@ def valor_r(resistencia:list):
     tolerancia_max = v_resistencia + tolerancia
     
     #retorna el valor en un float
-    return v_resistencia
-
-#suma las resistencia en un circuito paralelo
-def suma_decimal(componentes:list):
-    decimal_componentes = []
-    
-    #sacando decimales de cada resistencia
-    for componente in decimal_componentes:
-        decimal_componentes.append(1/componente)
-    #sacando resistencia total
-    componente_total = sum(decimal_componentes)
-    #dividirlo entre 1
-    componente_total = 1/componente_total
-    
-    return componente_total
-
+    return v_resistencia,tolerancia,tolerancia_min,tolerancia_max
