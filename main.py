@@ -1,7 +1,7 @@
-from funciones import resistencia_color, valor_r, resistencia_ohm
+from funciones.funciones_resistencia import valor_r,resistencia_color,resistencia_ohm
 import xml.etree.ElementTree as ET
-from clases import Resistencia, LedAB,LedSTD, Led
-import dearpygui.dearpygui as dpg
+from clases.leds import Led, LedAB, LedSTD
+from clases.Resistencias import Resistencia
 
 #descicrir el circuito
 #usar una lista para el circuito y ir agregando listas dependiendo de los circuitos
@@ -18,7 +18,8 @@ while True:
     2- Agregar un led
     3- Agregar una resistencia
     4- Vizualizar circuito
-    5- Salir''')
+    5- Salir
+    6- Realizar el calculo''')
     desicion = input('Escribe el numero de la accion a realizar:').lower()
     match desicion:
         #circuito paralelo
@@ -160,7 +161,7 @@ while True:
             for componente in circuito:
                 if isinstance(componente,Resistencia):
                     resistencia_valores.append(componente.resistencia)
-                elif issubclass(componente,Led):
+                elif isinstance(componente,Led):
                     leds_valores.append(componente.voltaje)
             #sacando la resistencia total del circuito   
             resistecnia_total = sum(resistencia_valores)
@@ -256,4 +257,3 @@ while True:
                     }
                     datos_circuito[f'led {led_num}'] = led_datos
             print(datos_circuito)
-                 

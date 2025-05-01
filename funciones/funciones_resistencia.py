@@ -63,5 +63,5 @@ def valor_r(resistencia:list):
     tolerancia_min = v_resistencia - tolerancia
     tolerancia_max = v_resistencia + tolerancia
     
-    #retorna el valor en un float
+    #retorna los valores en una tupla
     return v_resistencia,tolerancia,tolerancia_min,tolerancia_max
