@@ -11,7 +11,7 @@ def resistencia_color(color1:str,color2:str,color3:str,color4:str):
     resistencia = []
     indice_color = 0
     for i in range(4):
-        #saca las etiquetas del color
+        #bsuca las etiquetas del color
         color = valores_4bandas.find(colores[indice_color])
         #saca la etiqueta del valor 
         valor = color[indice_color]

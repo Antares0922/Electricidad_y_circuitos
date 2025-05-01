@@ -1,4 +1,5 @@
 from funciones.funciones_resistencia import valor_r,resistencia_color,resistencia_ohm
+from funciones.funciones_led import ab_led,std_led
 import xml.etree.ElementTree as ET
 from clases.leds import Led, LedAB, LedSTD
 from clases.Resistencias import Resistencia
@@ -46,50 +47,42 @@ while True:
         #LEDS
         case '2':
             estado_led = True
+            
             while estado_led:
                 color_led_desicion = input('escribe el color del led:').lower()
                 color_brillo = input('El led es estandar(std) o alto brillo(ab):').lower()
                 if color_brillo == 'std':
-                    #SE CARGA EL APARTADO DE <led_std>
-                    std_valores = raiz[0][0]
-                    #comparando con los colores de <led_std_variado>
-                    if std_valores[1].find(color_led_desicion) != None:
-                        #busqueda del voltaje e intensidad correcta
-                        voltaje_desicion_led = input('el voltaje del led es de 1.5v si lo es(y):').lower()
-                        #no existe un led blanco con 1.5v
-                        if voltaje_desicion_led == 'y' and color_led_desicion != 'blanco':                 
-                                valor_led_std = float(std_valores[0].find(color_led_desicion).text)
-                                intensidad = 40
-                        else:
-                            valor_led_std = float(std_valores[1].find(color_led_desicion).text)
-                            intensidad = 30
-                        #se agrega al circuito
+                    voltaje_desicion_led = input('el voltaje del led es de 1.5v si lo es(y):').lower()
+                    try:
+                        std_led(color_led_desicion,voltaje_desicion_led)
+                    except:
+                        print('ERROR')
+                    else:
+                        #desenpaquetando los datos
+                        valor_led_std, intensidad = std_led(color_led_desicion,voltaje_desicion_led)
+                        #Agregando al circuito
                         if circuito_paralelo_estado == True:
                                 circuito_paralelo.append(LedSTD(valor_led_std,intensidad))
                                 estado_led = False
                         else:
-                                circuito.append(LedSTD(valor_led_std,intensidad))
-                                estado_led = False
-                    else:
-                        print('OPCION NO VALIDO')
-                                
+                            circuito.append(LedSTD(valor_led_std,intensidad))
+                            estado_led = False
+                                       
                 elif color_brillo == 'ab':
-                    #SE CARGA EL APARTADO DE <led_ab>
-                    ab_valores = raiz[0][1]
-                    if ab_valores.find(color_led_desicion) != None:
-                        valor_led_ab = int(ab_valores.find(color_led_desicion).text)
-                        #se agrega al circuito
+                    try:
+                        valor_led_ab = ab_led(color_led_desicion)
+                    except:
+                        print('ERROR')
+                    else:
+                        #Se agrega al circuito
                         if circuito_paralelo_estado == True:
                             circuito_paralelo.append(LedAB(valor_led_ab))
                             estado_led = False
                         else:
                             circuito.append(LedAB(valor_led_ab))
                             estado_led = False
-                    else:
-                        print('OPCION NO VALIDO')
                 else:
                     print('OPCION NO VALIDA')
-                    break
         #RESISTENCIA
         case '3':
             estado_resistencia = True
@@ -100,7 +93,7 @@ while True:
                     while True:
                         omh_resistencia = input('escribe el valor omh de la resistencia:')
                         tolerancia_resistencia = input('escribe la tolerancia de la resistencia:')
-                        #NO SE PEUDEN AGREGAR RESISTENCIA CON VALOR 0
+                        #verifica si son validos los parametros
                         try:
                             resistencia_ohm(omh_resistencia,float(tolerancia_resistencia))
                         except:
@@ -116,39 +109,27 @@ while True:
                                 estado_resistencia = False
                                 break
                 elif resistencia_funcion == 'rcolor':
-                    r_color_estado = True
-                    while r_color_estado:
+                    while True:
                         color1 = input('escribe el color de la 1ra banda de la resistencia:').lower()
                         color2 = input('escribe el color de la 2ra banda de la resistencia:').lower()
                         color3 = input('escribe el color de la 3ra banda de la resistencia:').lower()
                         color4 = input('escribe el color de la 4ra banda de la resistencia:').lower()
-                        try:
-                            resistencia_color(color1,color2,color3,color4)
-                        except:
-                            print('INTENTALO DE NUEVO HUBO UN ERROR')
-                        else:                               
-                            #se agrega a un circuito paralelo si asi lo desea
-                            if circuito_paralelo_estado == True:
-                                try:
-                                    valor_r(resistencia_color(color1,color2,color3,color4))
-                                except:
-                                    print('ERROR PRUEBE DE NUEVO')
-                                    r_color_estado = False
-                                else:
-                                    circuito_paralelo.append(Resistencia(valor_r(resistencia_color(color1,color2,color3,color4))))
-                                    estado_resistencia = False
-                                    r_color_estado = False
-                                
+                        if circuito_paralelo_estado == True:
+                            try:
+                                circuito_paralelo.append(Resistencia(valor_r(resistencia_color(color1,color2,color3,color4))))
+                            except:
+                                print('ERROR INTENTALO DENUEVO')
                             else:
-                                try:
-                                    valor_r(resistencia_color(color1,color2,color3,color4))
-                                except:
-                                    print('ERROR PRUEBE DE NUEVO')
-                                    r_color_estado = False
-                                else:
-                                    circuito.append(Resistencia(valor_r(resistencia_color(color1,color2,color3,color4))))
-                                    estado_resistencia = False
-                                    r_color_estado = False
+                                estado_resistencia = False
+                                break
+                        else:
+                            try:
+                                circuito.append(Resistencia(valor_r(resistencia_color(color1,color2,color3,color4))))
+                            except:
+                                print('ERROR INTENTALO DENUEVO')
+                            else:
+                                estado_resistencia = False
+                                break
         case '4':
             print(circuito)
         case '5':
@@ -179,9 +160,9 @@ while True:
                     else:
                         break
             else:
-                leyes = input('Te falta la intensidad(I) o el voltaje(V):').upper()
                 leyes_estado = True
                 while leyes_estado:
+                    leyes = input('Te falta la intensidad(I) o el voltaje(V):').upper()
                     match leyes:
                         case 'I':
                             while True:
