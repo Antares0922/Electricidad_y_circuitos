@@ -1,9 +1,9 @@
-from funciones.funciones_resistencia import valor_r,resistencia_color,resistencia_ohm
-from funciones.funciones_led import ab_led,std_led
 import xml.etree.ElementTree as ET
 from clases.leds import Led, LedAB, LedSTD
 from clases.Resistencias import Resistencia
-
+from funciones.leds import std_led, ab_led
+from funciones.resistencias import resistencia_color, resistencia_ohm, valor_r
+from funciones.calculos import *
 #descicrir el circuito
 #usar una lista para el circuito y ir agregando listas dependiendo de los circuitos
 #AGREGA LOS OBJETOS DE LAS CLASES
@@ -129,67 +129,54 @@ while True:
                                 print('ERROR INTENTALO DENUEVO')
                             else:
                                 estado_resistencia = False
-                                break
+                            break
         case '4':
             print(circuito)
         case '5':
             break
         #CALCULOS
         case '6':
-            #saca la resistencia total del circuito
-            leds_valores = []
-            resistencia_valores = []
-            for componente in circuito:
-                if isinstance(componente,Resistencia):
-                    resistencia_valores.append(componente.resistencia)
-                elif isinstance(componente,Led):
-                    leds_valores.append(componente.voltaje)
-            #sacando la resistencia total del circuito   
-            resistecnia_total = sum(resistencia_valores)
-            
             #Obtencion de los demas datos del circuito
             leyes = input('Te falta algun dato si(y):').lower()
+            #sacando resistencia total del circuito
+            resistencia_total = RTotal(circuito)
             if leyes != 'y':
                 while True:
                     try:
                         intensidad_total = float(input('escribe la intensidad total:'))
                         voltaje_total = float(input('Escribe el voltaje total:'))
-                        potencia_total = voltaje_total * intensidad_total
+                        potencia_total = float(input('Escribe la potencia total:'))
                     except:
                         print('ERROR OPCION NO VALIDA')
                     else:
                         break
             else:
-                leyes_estado = True
-                while leyes_estado:
-                    leyes = input('Te falta la intensidad(I) o el voltaje(V):').upper()
-                    match leyes:
-                        case 'I':
-                            while True:
-                                try:
-                                    voltaje_total = float(input('Escribe el voltaje total:'))
-                                    intensidad_total = voltaje_total / resistecnia_total
-                                    potencia_total = voltaje_total * intensidad_total
-                                except:
-                                    print('ERROR ESCRIBE UN DATO VALIDO')
-                                else:
-                                    leyes_estado = False
-                                    break
-                        case 'V':
-                            while True:
-                                try:
-                                    intensidad_total = float(input('Escribe la intensidad total:'))
-                                    voltaje_total = intensidad_total * resistecnia_total
-                                    potencia_total = voltaje_total * intensidad_total
-                                except:
-                                    print('ERROR ESCRIBE UN DATO VALIDO')
-                                else:
-                                    leyes_estado = False
-                                    break
-                        case _:
-                            print('OPCION NO VALIDA')
+                leyes = input('Te falta la intensidad(I) o el voltaje(V):').upper()
+                match leyes:
+                    case 'I':
+                        while True:
+                            try:
+                                voltaje_total = float(input('Escribe el voltaje total:'))
+                                intensidad_total = intensidad_ley(voltaje_total,resistencia_total)
+                                potencia_total = potencia_ley(voltaje_total,intensidad_total)
+                            except:
+                                print('ERROR ESCRIBE UN DATO VALIDO')
+                            else:
+                                break
+                    case 'V':
+                        while True:
+                            try:
+                                intensidad_total = float(input('Escribe la intensidad total:'))
+                                voltaje_total = voltaje_ley(voltaje_total,resistencia_total)
+                                potencia_total = potencia_ley(voltaje_total,intensidad_total)
+                            except:
+                                print('ERROR ESCRIBE UN DATO VALIDO')
+                            else:
+                                break
+                    case _:
+                        print('OPCION NO VALIDA')
             #Mostrando los datos totales
-            print(f'resistecnia total:{resistecnia_total} ,intensidad total:{intensidad_total} ,potencia total:{potencia_total} ,voltaje total:{voltaje_total}')
+            print(f'resistecnia total:{resistencia_total}\nintensidad total:{intensidad_total}\npotencia total:{potencia_total}\nvoltaje total:{voltaje_total}')
             #obteniendo los datos de los componentes individuales
             datos_circuito = {
                 
